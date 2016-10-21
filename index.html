@@ -6,33 +6,19 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="./resources/ol.css" />
-        <link rel="stylesheet" href="./resources/ol3-layerswitcher.css">
-        <link rel="stylesheet" href="./resources/qgis2web.css">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-        <style>
-        html, body {
-            background-color: #ffffff;
-        }
-        </style>
-
-        <style>
-        .geolocate {
-            top: 65px;
-            left: .5em;
-        }
-        .ol-touch .geolocate {
-            top: 80px;
-        }
-        </style>
-        <script src="resources/polyfills.js"></script>
-        <script src="./resources/ol.js"></script>
-        <script src="./resources/ol3-layerswitcher.js"></script>
-    <link href="http://cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.min.css" rel="stylesheet">
-    <script src="http://cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
-        <script src="layers/wineries2.js"></script>
-        <script src="styles/wineries2_style.js"></script>
-        <script src="./layers/layers.js" type="text/javascript"></script> 
+        <link rel="stylesheet" href="css/leaflet.css" /><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link rel="stylesheet" href="css/leaflet-search.css" />
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <style>
         html, body, #map {
             width: 100%;
@@ -45,12 +31,115 @@
     </head>
     <body>
         <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
-            </div>
         </div>
-        <script src="./resources/qgis2web.js"></script>
-        <script src="./resources/Autolinker.min.js"></script>
+        <script src="data/json_VineyardArea0.js"></script>
+        <script src="data/json_Restaurants1.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:15, minZoom:12
+        }).fitBounds([[-41.611386744,173.629030132],[-41.38648936,174.081025815]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 15
+        });
+        basemap0.addTo(map);
+        var basemap1 = L.tileLayer('http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>,&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 15
+        });
+        basemap1.addTo(map);
+        var basemap2 = L.tileLayer('http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>,<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash;Map data: &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 15
+        });
+        basemap2.addTo(map);
+        function setBounds() {
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_VineyardArea0(feature, layer) {
+            var popupContent = '<table><tr><th scope="row">VineNo</th><td>' + (feature.properties['VineNo'] !== null ? Autolinker.link(String(feature.properties['VineNo'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleVineyardArea0(feature) {
+            return {
+                weight: 1.04,
+                color: '#badd69',
+                fillColor: '#badd69',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: 0.854901960784,
+                fillOpacity: 0.854901960784
+            };
+        }
+        map.createPane('pane_VineyardArea0');
+        map.getPane('pane_VineyardArea0').style.zIndex = 601;
+        var json_VineyardArea0JSON = new L.geoJson(json_VineyardArea0, {
+            pane: 'pane_VineyardArea0',
+            onEachFeature: pop_VineyardArea0,
+            style: doStyleVineyardArea0
+        });
+        bounds_group.addLayer(json_VineyardArea0JSON);
+        function pop_Restaurants1(feature, layer) {
+            var popupContent = '<table><tr><td colspan="2"><strong>Vineyard</strong><br />' + (feature.properties['Vineyard'] !== null ? Autolinker.link(String(feature.properties['Vineyard'])) : '') + '</td></tr><tr><td colspan="2"><strong>Website</strong><br />' + (feature.properties['Website'] !== null ? Autolinker.link(String(feature.properties['Website'])) : '') + '</td></tr><tr><td colspan="2"><strong>Address</strong><br />' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><td colspan="2"><strong>Hours</strong><br />' + (feature.properties['Hours'] !== null ? Autolinker.link(String(feature.properties['Hours'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        var svgRestaurants1 = L.icon({
+            iconUrl: 'markers/grape.svg',
+            iconSize: [34.2, 34.2], // size of the icon
+        });
+
+        map.createPane('pane_Restaurants1');
+        map.getPane('pane_Restaurants1').style.zIndex = 602;
+        function doStyleRestaurants1(feature) {
+            return {
+                pane: 'pane_Restaurants1',
+                icon: svgRestaurants1,
+                rotationAngle: 25.0,
+                rotationOrigin: 'center center'
+            }
+        }
+        function doPointToLayerRestaurants1(feature, latlng) {
+            return L.marker(latlng, doStyleRestaurants1(feature))
+        }
+        var json_Restaurants1JSON = new L.geoJson(json_Restaurants1, {
+            pane: 'pane_Restaurants1',
+            onEachFeature: pop_Restaurants1,
+            pointToLayer: doPointToLayerRestaurants1
+            });
+        bounds_group.addLayer(json_Restaurants1JSON);
+        feature_group.addLayer(json_Restaurants1JSON);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        var baseMaps = {'OSM': basemap0, 'Thunderforest Transport': basemap1, 'Stamen Terrain': basemap2};
+        L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> VineyardArea': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: feature_group,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Vineyard'}));
+        </script>
     </body>
 </html>
