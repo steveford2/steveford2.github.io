@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <title>Blenheim Wineries</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
@@ -132,6 +133,18 @@
         feature_group.addLayer(json_Restaurants1JSON);
         raster_group.addTo(map);
         feature_group.addTo(map);
+        
+        var title = new L.Control();
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+        title.update = funtion () {
+            this._div.innerHTML = '<h2>Winery Restaurants in Blenheim</h2>Click on each winery to see business information'
+        };
+        title.addTo(map)
+        
         var baseMaps = {'OSM': basemap0, 'Thunderforest Transport': basemap1, 'Stamen Terrain': basemap2};
         L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> VineyardArea': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
         setBounds();
