@@ -106,7 +106,7 @@
 
         var svgRestaurants1 = L.icon({
             iconUrl: 'markers/grape.svg',
-            iconSize: [34.2, 34.2], // size of the icon
+            iconSize: [24.2, 24.2], // size of the icon
         });
 
         map.createPane('pane_Restaurants1');
@@ -140,18 +140,22 @@
         return this._div;
         };
         title.update = function () {
-        this._div.innerHTML = '<h2>Blenheim Winery Restaurants</h2>Click on each winery restaurtant to see more details or search for winery in search box'
+        this._div.innerHTML = '<h2>Blenheim Winery Restaurants</h2>Click on each winery restaurtant to see more details or search for a winery in search box'
+                
         };
         title.addTo(map);
         
-        var baseMaps = {'Open Street Map': basemap0, 'Transport Map': basemap1, 'Terrain Map': basemap2};
-        L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> Vineyard Area': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
+        var baseMaps = {'Open Street Map': basemap0, 'Light Map': basemap1, 'Terrain Map': basemap2};
+        L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> Vineyard Areas': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
         setBounds();
+        
         map.addControl(new L.Control.Search({
             layer: feature_group,
             initial: true,
             hideMarkerOnCollapse: true,
             propertyName: 'Vineyard'}));
+            
+        L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
         </script>
     </body>
 </html>
