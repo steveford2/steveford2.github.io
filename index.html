@@ -76,10 +76,7 @@
             ];
           });
         }
-        function pop_VineyardArea0(feature, layer) {
-            var popupContent = '<table><tr><th scope="row">VineNo</th><td>' + (feature.properties['VineNo'] !== null ? Autolinker.link(String(feature.properties['VineNo'])) : '') + '</td></tr></table>';
-            layer.bindPopup(popupContent);
-        }
+
 
         function doStyleVineyardArea0(feature) {
             return {
