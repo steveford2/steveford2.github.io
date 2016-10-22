@@ -101,9 +101,6 @@
         bounds_group.addLayer(json_VineyardArea0JSON);
         function pop_Restaurants1(feature, layer) {
             var popupContent = '<table><tr><td colspan="0"><strong>Vineyard</strong><br />' + (feature.properties['Vineyard'] !== null ? Autolinker.link(String(feature.properties['Vineyard'])) : '') + '</td></tr><tr><td colspan="0"><strong>Website</strong><br />' + (feature.properties['Website'] !== null ? Autolinker.link(String(feature.properties['Website'])) : '') + '</td></tr><tr><td colspan="0"><strong>Address</strong><br />' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><td colspan="0"><strong>Hours</strong><br />' + (feature.properties['Hours'] !== null ? Autolinker.link(String(feature.properties['Hours'])) : '') + '</td></tr></table>';
-            
-            
-            //var popupOptions = { 'minWidth': '500', 'className': 'custom'};
             layer.bindPopup(popupContent);
         }
 
@@ -143,16 +140,16 @@
         return this._div;
         };
         title.update = function () {
-        this._div.innerHTML = '<h2>Blenheim Winery Restaurants</h2>Click on each winery restaurtant to see more details'
+        this._div.innerHTML = '<h2>Blenheim Winery Restaurants</h2>Click on each winery restaurtant to see more details or search for winery in search box'
         };
         title.addTo(map);
         
         var baseMaps = {'Open Street Map': basemap0, 'Transport Map': basemap1, 'Terrain Map': basemap2};
-        L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> VineyardArea': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> Vineyard Area': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
             layer: feature_group,
-            initial: false,
+            initial: true,
             hideMarkerOnCollapse: true,
             propertyName: 'Vineyard'}));
         </script>
