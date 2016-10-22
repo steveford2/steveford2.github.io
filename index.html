@@ -76,6 +76,7 @@
             ];
           });
         }
+        
 
 
         function doStyleVineyardArea0(feature) {
@@ -94,7 +95,7 @@
         map.getPane('pane_VineyardArea0').style.zIndex = 601;
         var json_VineyardArea0JSON = new L.geoJson(json_VineyardArea0, {
             pane: 'pane_VineyardArea0',
-            onEachFeature: pop_VineyardArea0,
+            //onEachFeature: pop_VineyardArea0,
             style: doStyleVineyardArea0
         });
         bounds_group.addLayer(json_VineyardArea0JSON);
