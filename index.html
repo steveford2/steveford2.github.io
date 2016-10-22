@@ -100,9 +100,9 @@
         });
         bounds_group.addLayer(json_VineyardArea0JSON);
         function pop_Restaurants1(feature, layer) {
-            var popupContent = '<table><tr><td colspan="2"><strong>Vineyard</strong><br />' + (feature.properties['Vineyard'] !== null ? Autolinker.link(String(feature.properties['Vineyard'])) : '') + '</td></tr><tr><td colspan="2"><strong>Website</strong><br />' + (feature.properties['Website'] !== null ? Autolinker.link(String(feature.properties['Website'])) : '') + '</td></tr><tr><td colspan="2"><strong>Address</strong><br />' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><td colspan="2"><strong>Hours</strong><br />' + (feature.properties['Hours'] !== null ? Autolinker.link(String(feature.properties['Hours'])) : '') + '</td></tr></table>';
-            var popupOptions = { 'minWidth': '500', 'className': 'custom'};
-            layer.bindPopup(popupContent, popupOptions);
+            var popupContent = '<table><tr><td colspan="6"><strong>Vineyard</strong><br />' + (feature.properties['Vineyard'] !== null ? Autolinker.link(String(feature.properties['Vineyard'])) : '') + '</td></tr><tr><td colspan="6"><strong>Website</strong><br />' + (feature.properties['Website'] !== null ? Autolinker.link(String(feature.properties['Website'])) : '') + '</td></tr><tr><td colspan="6"><strong>Address</strong><br />' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><td colspan="6"><strong>Hours</strong><br />' + (feature.properties['Hours'] !== null ? Autolinker.link(String(feature.properties['Hours'])) : '') + '</td></tr></table>';
+            //var popupOptions = { 'minWidth': '500', 'className': 'custom'};
+            layer.bindPopup(popupContent);
         }
 
         var svgRestaurants1 = L.icon({
