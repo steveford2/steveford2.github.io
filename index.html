@@ -134,7 +134,17 @@
         raster_group.addTo(map);
         feature_group.addTo(map);
         
-        
+
+        var title = new L.Control();
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+        return this._div;
+        };
+        title.update = function () {
+        this._div.innerHTML = '<h2>Canterbury Consent Activities</h2>Consent activities in Canterbury region which affect the environment'
+        };
+        title.addTo(map);
         
         var baseMaps = {'Open Street Map': basemap0, 'Transport Map': basemap1, 'Terrain Map': basemap2};
         L.control.layers(baseMaps,{'<img src="legend/Restaurants1.png" /> Restaurants': json_Restaurants1JSON,'<img src="legend/VineyardArea0.png" /> VineyardArea': json_VineyardArea0JSON,},{collapsed:false}).addTo(map);
